@@ -31,7 +31,8 @@ src/
 ├── TicketManager.sol      # 门票NFT合约 (ERC721)
 ├── EventManager.sol       # 活动管理合约
 ├── Marketplace.sol        # 交易市场合约
-└── PlatformToken.sol      # 平台代币合约 (ERC20)
+├── PlatformToken.sol      # 平台代币合约 (ERC20)
+└── TokenSwap.sol          # 代币互换合约
 ```
 
 - **TicketManager.sol**: 基于 ERC721 标准的门票 NFT
@@ -54,11 +55,24 @@ src/
   - 支持 ETH 和平台代币支付
 
 - **PlatformToken.sol**: 平台原生代币
+
   - ERC20 标准代币实现
   - 激励机制和分发策略
   - 治理功能预留接口
 
+- **TokenSwap.sol**: 代币互换合约
+  - 与其他 ERC20 代币的兑换功能
+  - 流动性池管理
+  - 价格预言机集成
+  - 滑点保护机制
+
 ### 2. 前端应用层
+
+#### 推荐技术栈
+
+- **前端框架**: React
+- **区块链交互**: viem
+- **样式**: Tailwind CSS
 
 #### 用户端
 
@@ -66,6 +80,7 @@ src/
 - **门票购买**: 支付流程、钱包连接、交易确认
 - **个人中心**: 持有门票管理、交易历史
 - **二级市场**: 门票转售、购买他人门票
+- **代币互换**: 平台代币与其他代币的兑换功能
 
 #### 组织者端
 
@@ -92,6 +107,116 @@ src/
 - **快速验票**: 扫码验证门票有效性
 - **防重复使用**: 区块链状态确保门票唯一性
 
+## 💱 代币互换系统设计
+
+### 核心功能需求
+
+#### 1. **自动做市商 (AMM) 机制**
+
+- **恒定乘积公式**: 实现类似 Uniswap 的 x\*y=k 算法
+- **流动性池管理**: 支持用户添加/移除流动性
+- **手续费分配**: 交易手续费分配给流动性提供者
+- **滑点保护**: 防止大额交易造成价格冲击
+
+#### 2. **支持的代币类型**
+
+- **主流代币**: USDT, USDC, DAI, ETH
+- **平台代币**: 原生平台代币
+- **扩展支持**: 可配置添加其他 ERC20 代币
+
+#### 3. **价格发现机制**
+
+- **链上价格**: 基于 AMM 池子的实时价格
+- **预言机集成**: Chainlink 价格预言机作为参考
+- **价格保护**: 防止价格操纵和闪电贷攻击
+
+#### 4. **流动性激励**
+
+- **LP 代币**: 流动性提供者获得 LP 代币证明
+- **挖矿奖励**: 为流动性提供者分发平台代币奖励
+- **锁仓机制**: 支持时间锁定以获得更高收益
+
+### 技术实现方案
+
+#### 智能合约架构
+
+```solidity
+// 核心互换合约
+contract TokenSwap {
+    // AMM核心逻辑
+    function swapExactTokensForTokens() external;
+    function addLiquidity() external;
+    function removeLiquidity() external;
+
+    // 价格查询
+    function getAmountOut() external view returns (uint);
+    function getReserves() external view returns (uint, uint);
+}
+
+// 流动性奖励合约
+contract LiquidityMining {
+    function stake() external;
+    function unstake() external;
+    function claimRewards() external;
+}
+
+// 价格预言机集成
+contract PriceOracle {
+    function getPrice() external view returns (uint);
+    function updatePrice() external;
+}
+```
+
+#### 前端集成功能
+
+- **交易界面**: 直观的代币选择和数量输入
+- **价格显示**: 实时汇率和预估收到数量
+- **滑点设置**: 用户可调节滑点容忍度
+- **流动性管理**: LP 添加/移除界面
+- **收益展示**: 流动性挖矿收益统计
+
+#### 安全考虑
+
+- **重入保护**: 防止重入攻击
+- **授权检查**: 代币授权额度管理
+- **最小流动性**: 防止流动性枯竭
+- **紧急暂停**: 管理员紧急暂停功能
+
+### 集成第三方 DEX
+
+#### Uniswap V3 集成
+
+- **路由优化**: 自动寻找最优交易路径
+- **集中流动性**: 支持 V3 的价格区间流动性
+- **手续费等级**: 0.05%, 0.3%, 1%等不同费率池
+
+#### 1inch 聚合器集成
+
+- **最优价格**: 自动比较多个 DEX 价格
+- **智能路由**: 拆分订单获得最佳执行价格
+- **Gas 优化**: 减少交易成本
+
+### 业务场景应用
+
+1. **用户购票场景**
+
+   - 用户持有 USDT → 兑换平台代币 → 购买门票
+   - 享受平台代币支付折扣
+
+2. **活动组织者场景**
+
+   - 收到的平台代币 → 兑换稳定币
+   - 降低代币价格波动风险
+
+3. **流动性提供者场景**
+
+   - 提供 USDT-平台代币流动性
+   - 获得交易手续费 + 挖矿奖励
+
+4. **套利机会**
+   - 价格差异套利
+   - 促进价格发现和市场效率
+
 ## � 开发路线图
 
 ### 📅 阶段一：智能合约开发 (Week 1-3)
@@ -112,6 +237,10 @@ src/
   - 一级市场发行逻辑
   - 二级市场交易
   - 手续费分成机制
+- [ ] **代币互换合约** (`TokenSwap.sol`)
+  - AMM 自动做市商机制
+  - 流动性池管理
+  - 价格预言机集成
 - [ ] **合约部署与测试**
   - Foundry 测试框架集成
   - 本地网络 / 测试网部署
@@ -154,6 +283,7 @@ src/
   - 门票购买流程界面
   - 个人中心与门票管理
   - 钱包连接与交易确认
+  - 代币互换交易界面
 - [ ] **组织者后台**
   - 活动创建与管理界面
   - 销售数据统计面板
@@ -162,7 +292,7 @@ src/
   - 二维码生成器
   - 验票扫码界面
 
-**交付物**: 完整的前端应用 (React/Vue + Tailwind CSS)
+**交付物**: 完整的前端应用（React + viem + Tailwind CSS）
 
 ---
 
@@ -218,13 +348,16 @@ src/
 - **合约语言**: Solidity ^0.8.19
 - **标准协议**: ERC721, ERC20
 - **测试工具**: Forge, Anvil
+- **DeFi 集成**: Uniswap V3, Chainlink Oracle
 
 ### 前端技术
+
+**推荐技术栈**：
 
 - **框架**: React.js / Next.js
 - **样式**: Tailwind CSS
 - **状态管理**: Redux Toolkit / Zustand
-- **区块链交互**: ethers.js / viem
+- **区块链交互**: viem
 - **钱包连接**: WalletConnect, MetaMask
 
 ### 后端技术
@@ -312,11 +445,13 @@ onlineTicket/
 │   ├── TicketManager.sol      # 门票NFT合约
 │   ├── EventManager.sol       # 活动管理合约
 │   ├── Marketplace.sol        # 交易市场合约
-│   └── PlatformToken.sol      # 平台代币合约
+│   ├── PlatformToken.sol      # 平台代币合约
+│   └── TokenSwap.sol          # 代币互换合约
 ├── test/
 │   ├── TicketManager.t.sol    # 门票合约测试
 │   ├── EventManager.t.sol     # 活动管理测试
-│   └── Marketplace.t.sol      # 市场合约测试
+│   ├── Marketplace.t.sol      # 市场合约测试
+│   └── TokenSwap.t.sol        # 互换合约测试
 ├── script/
 │   ├── Deploy.s.sol           # 部署脚本
 │   └── Setup.s.sol            # 初始化脚本
@@ -349,6 +484,9 @@ onlineTicket/
 - [ ] **ERC-6551 集成**: 门票作为智能钱包，支持更多功能
 - [ ] **门票碎片化**: 支持门票拆分与组合
 - [ ] **投票治理**: 门票持有者参与活动决策
+- [ ] **高级 DEX 功能**: 限价订单、止损订单
+- [ ] **跨链桥接**: 支持多链代币互换
+- [ ] **收益聚合器**: 自动化 DeFi 收益优化
 
 ### Version 3.0 愿景
 
