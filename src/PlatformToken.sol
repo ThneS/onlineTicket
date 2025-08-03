@@ -16,9 +16,13 @@ contract PlatformToken is
 {
     uint256 public constant MAX_SUPPLY = 1_000_000_000 * 10 ** 18; // 10亿代币
 
-    event ToknesMinted(address indexed to, uint256 amount);
+    event TokensMinted(address indexed to, uint256 amount);
     event TokensBurned(address indexed from, uint256 amount);
-    event EmergencyWithdraw(address indexed token, address indexed to, uint256);
+    event EmergencyWithdraw(
+        address indexed token,
+        address indexed to,
+        uint256 amount
+    );
 
     constructor(
         address initialOwner
@@ -29,7 +33,7 @@ contract PlatformToken is
     {
         uint256 initialSupply = MAX_SUPPLY / 10;
         _mint(initialOwner, initialSupply);
-        emit ToknesMinted(initialOwner, initialSupply);
+        emit TokensMinted(initialOwner, initialSupply);
     }
 
     function mint(address to, uint256 amount) external onlyOwner {
@@ -39,7 +43,7 @@ contract PlatformToken is
             "PlatformToken: exceeds max supply"
         );
         _mint(to, amount);
-        emit ToknesMinted(to, amount);
+        emit TokensMinted(to, amount);
     }
 
     function batchMint(
@@ -68,7 +72,7 @@ contract PlatformToken is
                 "PlatformToken: mint to zero address"
             );
             _mint(recipients[i], amounts[i]);
-            emit ToknesMinted(recipients[i], amounts[i]);
+            emit TokensMinted(recipients[i], amounts[i]);
         }
     }
 
