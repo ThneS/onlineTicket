@@ -1,10 +1,34 @@
-# PlatformToken 测试用例文档
+# 测试文档
 
-## 测试概览
+本目录包含 OnlineTicket 项目的所有测试文件和相关文档。
 
-本测试套件为 `PlatformToken` 合约提供了全面的测试覆盖，包含 37 个测试用例，涵盖了合约的所有核心功能。
+## 📁 文件结构
 
-## 测试分类
+```
+test/
+├── README.md                           # 本文档
+├── PlatformToken.t.sol                # PlatformToken 合约测试
+├── TicketManager.t.sol                # TicketManager 合约测试
+└── TicketManager_TEST_REPORT.md       # TicketManager 测试报告
+```
+
+## 🧪 测试概览
+
+### PlatformToken 测试
+
+- **文件**: `PlatformToken.t.sol`
+- **测试数量**: 37 个（包含 2 个模糊测试）
+- **状态**: ✅ 全部通过
+- **覆盖范围**: ERC20 代币的所有核心功能
+
+### TicketManager 测试
+
+- **文件**: `TicketManager.t.sol`
+- **测试数量**: 45 个
+- **状态**: ✅ 全部通过
+- **覆盖范围**: ERC721 门票 NFT 的所有核心功能
+
+## 🚀 运行测试
 
 ### 1. 部署测试 (2 个测试)
 
