@@ -524,3 +524,15 @@ onlineTicket/
 ---
 
 _建设更安全、透明的 Web3 门票生态系统_ 🌟
+
+# 快速开始（在有 anvil 运行的情况下）
+
+PRIVATE_KEY=0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80 make deploy-quick
+
+# 验证部署结果
+
+make verify
+
+# 查看所有可用命令
+
+make help
