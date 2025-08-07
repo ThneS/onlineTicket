@@ -1,6 +1,5 @@
-import { http, createConfig } from 'wagmi';
+import { getDefaultConfig } from '@rainbow-me/rainbowkit';
 import { mainnet, sepolia } from 'wagmi/chains';
-import { injected, metaMask, walletConnect } from 'wagmi/connectors';
 
 // 自定义 Anvil 链配置
 export const anvil = {
@@ -21,24 +20,9 @@ export const anvil = {
   },
 } as const;
 
-export const config = createConfig({
+export const config = getDefaultConfig({
+  appName: 'OnlineTicket DApp',
+  projectId: import.meta.env.VITE_WALLET_CONNECT_PROJECT_ID || '2c4c28de6b04c748986ea1bb0c1e1e02',
   chains: [anvil, sepolia, mainnet],
-  connectors: [
-    injected(),
-    metaMask(),
-    walletConnect({
-      projectId: import.meta.env.VITE_WALLET_CONNECT_PROJECT_ID || 'demo-project-id',
-    }),
-  ],
-  transports: {
-    [anvil.id]: http(),
-    [sepolia.id]: http(),
-    [mainnet.id]: http(),
-  },
+  ssr: false, // 如果您的 dApp 不使用服务器端渲染，请添加此行
 });
-
-declare module 'wagmi' {
-  interface Register {
-    config: typeof config;
-  }
-}
