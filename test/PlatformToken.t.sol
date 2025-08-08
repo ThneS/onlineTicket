@@ -36,7 +36,7 @@ contract PlatformTokenTest is Test {
     }
 
     // ================== 部署测试 ==================
-    function test_Deploy() public {
+    function test_Deploy() public view {
         assertEq(token.name(), "OnlineTicket Token");
         assertEq(token.symbol(), "OTT");
         assertEq(token.decimals(), 18);

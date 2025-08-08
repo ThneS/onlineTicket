@@ -75,7 +75,7 @@ contract TokenSwapTest is Test {
 
     // ============ 部署和初始化测试 ============
 
-    function test_Deployment() public {
+    function test_Deployment() public view {
         assertEq(address(tokenSwap.platformToken()), address(platformToken));
         assertEq(tokenSwap.owner(), owner);
         assertEq(tokenSwap.swapFeeRate(), 30); // 0.3%
@@ -86,7 +86,7 @@ contract TokenSwapTest is Test {
         assertEq(tokenSwap.totalSupply(), 0);
     }
 
-    function test_InitialState() public {
+    function test_InitialState() public view {
         assertFalse(tokenSwap.paused());
         assertEq(tokenSwap.totalProtocolFeesToken(), 0);
         assertEq(tokenSwap.totalProtocolFeesETH(), 0);
@@ -147,7 +147,7 @@ contract TokenSwapTest is Test {
         // 先添加流动性
         vm.startPrank(user1);
         platformToken.approve(address(tokenSwap), INITIAL_TOKEN_AMOUNT);
-        uint256 liquidity = tokenSwap.addLiquidity{value: INITIAL_ETH_AMOUNT}(
+        tokenSwap.addLiquidity{value: INITIAL_ETH_AMOUNT}(
             INITIAL_TOKEN_AMOUNT,
             INITIAL_TOKEN_AMOUNT,
             INITIAL_ETH_AMOUNT
@@ -343,7 +343,7 @@ contract TokenSwapTest is Test {
         // 先添加流动性
         vm.startPrank(user1);
         platformToken.approve(address(tokenSwap), INITIAL_TOKEN_AMOUNT);
-        uint256 liquidity = tokenSwap.addLiquidity{value: INITIAL_ETH_AMOUNT}(
+        tokenSwap.addLiquidity{value: INITIAL_ETH_AMOUNT}(
             INITIAL_TOKEN_AMOUNT,
             INITIAL_TOKEN_AMOUNT,
             INITIAL_ETH_AMOUNT
@@ -363,7 +363,7 @@ contract TokenSwapTest is Test {
         assertGt(sharePercentage, 0);
     }
 
-    function test_CalculateAddLiquidity() public {
+    function test_CalculateAddLiquidity() public view {
         uint256 tokenAmount = 1000 * 1e18;
 
         // 第一次添加流动性（池子为空）

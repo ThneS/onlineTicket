@@ -1,6 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
-import { Button } from '../components/ui/Button';
 import { routes } from '../router';
 
 export function Header() {

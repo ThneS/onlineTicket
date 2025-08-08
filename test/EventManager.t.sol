@@ -72,7 +72,7 @@ contract EventManagerTest is Test {
 
     // ============ 基础测试 ============
 
-    function test_Deployment() public {
+    function test_Deployment() public view {
         assertEq(address(eventManager.ticketManager()), address(ticketManager));
         assertEq(address(eventManager.platformToken()), address(platformToken));
         assertEq(eventManager.owner(), owner);

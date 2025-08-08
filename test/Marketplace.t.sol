@@ -165,7 +165,7 @@ contract MarketplaceTest is Test {
 
     // ============ 部署和初始化测试 ============
 
-    function test_Deployment() public {
+    function test_Deployment() public view {
         assertEq(address(marketplace.ticketManager()), address(ticketManager));
         assertEq(address(marketplace.eventManager()), address(eventManager));
         assertEq(address(marketplace.platformToken()), address(platformToken));
@@ -1016,7 +1016,7 @@ contract MarketplaceTest is Test {
 
     // ============ ERC721Receiver测试 ============
 
-    function test_OnERC721Received() public {
+    function test_OnERC721Received() public view {
         bytes4 selector = marketplace.onERC721Received(
             address(0),
             address(0),

@@ -536,3 +536,19 @@ make verify
 # 查看所有可用命令
 
 make help
+
+```shell
+# 完整开发流程
+make dev-setup     # 设置环境
+make anvil-start   # 启动 Anvil（新终端）
+make anvil-deploy  # 部署合约
+make verify        # 验证部署
+make demo         # 运行演示
+
+# 使用 cast 生成新钱包
+cast wallet new
+# 生成新助记词
+cast wallet new-mnemonic
+# 从助记词派生密钥
+cast wallet derive-private-key "your mnemonic phrase here" 0
+```

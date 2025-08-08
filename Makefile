@@ -89,25 +89,6 @@ deploy-quick:
 		--private-key $(PRIVATE_KEY) \
 		--broadcast
 
-deploy-full:
-	@echo "$(GREEN)完整部署到 $(NETWORK)...$(NC)"
-	@if [ "$(NETWORK)" = "anvil" ]; then \
-		echo "$(YELLOW)确保 Anvil 正在运行: anvil$(NC)"; \
-	fi
-	forge script script/DeployOnlineTicket.s.sol:DeployOnlineTicket \
-		--rpc-url $(RPC_URL) \
-		--private-key $(PRIVATE_KEY) \
-		--broadcast
-
-deploy-testnet:
-	@echo "$(GREEN)部署到测试网...$(NC)"
-	@echo "$(RED)请确保已设置正确的测试网 RPC_URL 和 PRIVATE_KEY$(NC)"
-	forge script script/DeployOnlineTicket.s.sol:DeployOnlineTicket \
-		--rpc-url $(RPC_URL) \
-		--private-key $(PRIVATE_KEY) \
-		--broadcast \
-		--verify
-
 # 演示和管理
 demo:
 	@echo "$(GREEN)运行完整功能演示...$(NC)"

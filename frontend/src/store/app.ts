@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
-import { AppState, WalletState } from '../types';
+import type { AppState, WalletState } from '../types';
 
 interface AppStore extends AppState {
   // Actions
@@ -24,7 +24,7 @@ const initialState: AppState = {
 export const useAppStore = create<AppStore>()(
   devtools(
     persist(
-      (set, get) => ({
+      (set, _get) => ({
         ...initialState,
 
         setTheme: (theme) => set({ theme }, false, 'setTheme'),

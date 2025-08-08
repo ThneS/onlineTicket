@@ -2,7 +2,7 @@ import { createBrowserRouter, Navigate } from 'react-router-dom';
 import { Layout } from '../layout';
 import { Home } from '../pages/Home';
 import { Events } from '../pages/Events';
-import { EventDetail, Marketplace, TokenSwap, Profile, CreateEvent } from '../pages';
+import { EventDetail, MyTickets, Marketplace, TokenSwap, Profile, CreateEvent, Wallet } from '../pages';
 
 export const router = createBrowserRouter([
   {
@@ -18,8 +18,16 @@ export const router = createBrowserRouter([
         element: <Events />,
       },
       {
-        path: 'events/:eventId',
+        path: 'events/:id',
         element: <EventDetail />,
+      },
+      {
+        path: 'my-tickets',
+        element: <MyTickets />,
+      },
+      {
+        path: 'wallet',
+        element: <Wallet />,
       },
       {
         path: 'marketplace',
@@ -58,6 +66,12 @@ export const routes = [
     icon: 'Calendar',
   },
   {
+    path: '/my-tickets',
+    name: '我的门票',
+    icon: 'Ticket',
+    requireAuth: true,
+  },
+  {
     path: '/marketplace',
     name: '市场',
     icon: 'ShoppingBag',
@@ -66,11 +80,5 @@ export const routes = [
     path: '/swap',
     name: '交换',
     icon: 'ArrowLeftRight',
-  },
-  {
-    path: '/profile',
-    name: '个人',
-    icon: 'User',
-    requireAuth: true,
   },
 ] as const;

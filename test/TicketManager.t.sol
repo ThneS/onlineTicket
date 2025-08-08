@@ -71,7 +71,7 @@ contract TicketManagerTest is Test {
     }
 
     // ================== 部署测试 ==================
-    function test_Deploy() public {
+    function test_Deploy() public view {
         assertEq(ticketManager.name(), "OnlineTicket NFT");
         assertEq(ticketManager.symbol(), "OTN");
         assertEq(ticketManager.owner(), owner);
@@ -1016,7 +1016,7 @@ contract TicketManagerTest is Test {
     }
 
     // ================== ERC721 基础功能测试 ==================
-    function test_SupportsInterface() public {
+    function test_SupportsInterface() public view {
         // ERC721
         assertTrue(ticketManager.supportsInterface(0x80ac58cd));
         // ERC721Metadata
