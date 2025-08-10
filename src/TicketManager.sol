@@ -126,7 +126,7 @@ contract TicketManager is
 
     modifier onlyAuthorizedVerifier() {
         require(
-            authorizedVerifiers[msg.sender] || msg.sender == owner(),
+            authorizedVerifiers[msg.sender],
             "TicketManager: unauthorized verifier"
         );
         _;
@@ -139,7 +139,6 @@ contract TicketManager is
         );
         _;
     }
-
     /**
      * @dev 授权铸造者
      */
@@ -199,15 +198,13 @@ contract TicketManager is
                 "TicketManager: seat already taken"
             );
         }
-
         uint256 tokenId = _nextTokenId;
         _nextTokenId++;
 
         // 生成验证哈希
         bytes32 verificationHash = keccak256(
-            abi.encodePacked(tokenId, eventId, to, block.timestamp)
+            abi.encodePacked(tokenId, eventId, seatNumber, to, block.timestamp)
         );
-
         // 创建门票元数据
         tickets[tokenId] = TicketMetadata({
             eventId: eventId,
