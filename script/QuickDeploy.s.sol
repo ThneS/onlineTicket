@@ -8,6 +8,8 @@ import "../src/TicketManager.sol";
 import "../src/EventManager.sol";
 import "../src/TokenSwap.sol";
 import "../src/Marketplace.sol";
+import "../src/ShowManager.sol";
+import "../src/DIDRegistry.sol";
 
 contract QuickDeploy is Script {
     PlatformToken public platformToken;
@@ -15,6 +17,8 @@ contract QuickDeploy is Script {
     EventManager public eventManager;
     TokenSwap public tokenSwap;
     Marketplace public marketplace;
+    DIDRegistry public didRegistry;
+    ShowManager public showManager;
 
     function run() external {
         uint256 deployerPrivateKey = vm.envUint("PRIVATE_KEY");
@@ -65,8 +69,28 @@ contract QuickDeploy is Script {
         );
         console.log("Marketplace:", address(marketplace));
 
-        // 6. Setup permissions
-        console.log("\n6. Setting up permissions...");
+        // 6. Deploy DIDRegistry
+        console.log("\n6. Deploying DIDRegistry...");
+        didRegistry = new DIDRegistry(deployer);
+        console.log("DIDRegistry:", address(didRegistry));
+
+        // Bootstrap a demo DID for deployer (bind + verify) so organizer can create shows immediately
+        console.log("Bootstrapping demo DID for deployer...");
+        bytes32 demoDid = didRegistry.registerDIDFor(
+            "did:example:deployer",
+            "ipfs://deployer",
+            deployer
+        );
+        didRegistry.bindAddressToDID(demoDid, deployer);
+        didRegistry.verifyDID(demoDid);
+
+        // 7. Deploy ShowManager (feeRecipient = deployer, platformFee = 5%)
+        console.log("\n7. Deploying ShowManager...");
+        showManager = new ShowManager(deployer, 5, address(didRegistry));
+        console.log("ShowManager:", address(showManager));
+
+        // 8. Setup permissions
+        console.log("\n8. Setting up permissions...");
 
         // Authorize EventManager to mint tickets
         ticketManager.setMinterAuthorization(address(eventManager), true);
@@ -80,9 +104,9 @@ contract QuickDeploy is Script {
         eventManager.authorizeOrganizer(deployer, true);
         console.log("Deployer authorized as organizer");
 
-        // 7. Optional: Add initial liquidity
+        // 9. Optional: Add initial liquidity
         if (deployer.balance >= 1 ether) {
-            console.log("\n7. Adding initial liquidity...");
+            console.log("\n9. Adding initial liquidity...");
 
             uint256 tokenAmount = 100000 * 1e18; // 100,000 tokens
             uint256 ethAmount = 1 ether;
@@ -116,6 +140,8 @@ contract QuickDeploy is Script {
         console.log("EventManager:", address(eventManager));
         console.log("TokenSwap:", address(tokenSwap));
         console.log("Marketplace:", address(marketplace));
+        console.log("DIDRegistry:", address(didRegistry));
+        console.log("ShowManager:", address(showManager));
         console.log("=== Deployment Complete ===");
 
         // Save addresses to environment file
@@ -125,5 +151,7 @@ contract QuickDeploy is Script {
         console.log("export EVENT_MANAGER_ADDRESS=", address(eventManager));
         console.log("export TOKEN_SWAP_ADDRESS=", address(tokenSwap));
         console.log("export MARKETPLACE_ADDRESS=", address(marketplace));
+        console.log("export DID_REGISTRY_ADDRESS=", address(didRegistry));
+        console.log("export SHOW_MANAGER_ADDRESS=", address(showManager));
     }
 }

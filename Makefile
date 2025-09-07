@@ -18,7 +18,7 @@ YELLOW := \033[0;33m
 RED := \033[0;31m
 NC := \033[0m # No Color
 
-.PHONY: help build test deploy-quick deploy-full demo manage clean
+.PHONY: help build test deploy-quick deploy-full demo manage clean sync-abis
 
 # 默认目标
 help:
@@ -29,6 +29,7 @@ help:
 	@echo "  make test           - 运行所有测试"
 	@echo "  make test-verbose   - 运行详细测试"
 	@echo "  make coverage       - 生成测试覆盖率报告"
+	@echo "  make sync-abis      - 复制 ABI 到前端和后端 abis 目录"
 	@echo ""
 	@echo "$(YELLOW)部署操作:$(NC)"
 	@echo "  make deploy-quick   - 快速部署到本地网络"
@@ -77,6 +78,11 @@ clean:
 	@echo "$(GREEN)清理构建文件...$(NC)"
 	forge clean
 	rm -rf cache/ out/
+
+# 同步 ABI 到前端/后端
+sync-abis:
+	@echo "$(GREEN)同步 ABI 到前端与后端...$(NC)"
+	./scripts/sync-abis.sh
 
 # 部署操作
 deploy-quick:

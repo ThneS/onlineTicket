@@ -73,6 +73,9 @@ contract TokenSwapExtraTest is Test {
         vm.stopPrank();
     }
 
+    // 允许测试合约接收 ETH（用于 withdrawProtocolFees 测试）
+    receive() external payable {}
+
     function test_SetMaxSlippageRate() public {
         vm.prank(owner);
         tokenSwap.setMaxSlippageRate(1500);

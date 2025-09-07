@@ -94,6 +94,9 @@ contract MarketplaceExtraTest is Test {
         platformToken.approve(address(marketplace), type(uint256).max);
     }
 
+    // 允许本测试合约接收 ETH，用于提现测试
+    receive() external payable {}
+
     function _listToken1() internal returns (uint256) {
         vm.prank(seller);
         return
@@ -110,7 +113,8 @@ contract MarketplaceExtraTest is Test {
         uint256 id = _listToken1();
         assertGt(id, 0);
         vm.prank(seller);
-        vm.expectRevert("Marketplace: ticket already listed");
+        // 再次上架时，门票已在合约中，卖家不再是 owner，先触发 not ticket owner
+        vm.expectRevert("Marketplace: not ticket owner");
         marketplace.createListing(
             tokenId1,
             TICKET_PRICE,
