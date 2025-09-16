@@ -263,6 +263,7 @@ info:
 	@echo "  src/           - 智能合约源码"
 	@echo "  test/          - 测试文件"
 	@echo "  script/        - 部署脚本"
+	@echo "  make sync-abis      - 复制 ABI 到前端和后端 abis 目录"
 	@echo ""
 	@echo "主要合约:"
 	@echo "  PlatformToken  - ERC20 平台代币"

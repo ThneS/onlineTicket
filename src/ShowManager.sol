@@ -201,4 +201,18 @@ contract ShowManager {
         s.status = ShowStatus.Ended;
         emit ShowEnded(showId);
     }
+
+    function getShow(
+        uint256 showId
+    ) external view showExists(showId) returns (Show memory) {
+        return shows[showId];
+    }
+
+    function getShows() external view returns (Show[] memory) {
+        Show[] memory allShows = new Show[](nextShowId - 1);
+        for (uint256 i = 1; i < nextShowId; i++) {
+            allShows[i - 1] = shows[i];
+        }
+        return allShows;
+    }
 }
