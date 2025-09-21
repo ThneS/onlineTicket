@@ -10,7 +10,7 @@ set -euo pipefail
 ROOT_DIR=$(cd "$(dirname "$0")/.." && pwd)
 OUT_DIR="$ROOT_DIR/out"
 FRONTEND_DIR_DEFAULT="$ROOT_DIR/../TicketFrontend/src/abis"
-BACKEND_DIR_DEFAULT="$ROOT_DIR/../backend/src/abis"
+BACKEND_DIR_DEFAULT="$ROOT_DIR/../backend/src/contract/abis"
 
 FRONTEND_ABIS_DIR="${FRONTEND_DIR:-$FRONTEND_DIR_DEFAULT}"
 BACKEND_ABIS_DIR="${BACKEND_DIR:-$BACKEND_DIR_DEFAULT}"
