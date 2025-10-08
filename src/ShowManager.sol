@@ -24,6 +24,7 @@ contract ShowManager {
         string metadataURI; // IPFS CID
         ShowStatus status; // 演出状态
     }
+
     mapping(uint256 => Show) shows; // 记录演出信息
     uint256 private _showCounter; // 演出计数器
     address public admin; // 管理员地址

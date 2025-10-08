@@ -1,0 +1,73 @@
+{
+  "showId": "SHOW-2025-0001",
+  "name": "鸟巢演唱会 - 2025 夏季特别场",
+  "description": "鸟巢·北京国家体育场，群星演唱会",
+  "venue": "北京国家体育场（鸟巢）",
+  "organizer": "StarMusic Ltd.",
+  "validFrom": 1767225600,
+  "validUntil": 1767312000,
+  "sections": [
+    {
+      "sectionId": "VIP-A",
+      "name": "内场VIP A区",
+      "capacity": 200,
+      "ticketPrice": "1280.00",
+      "checkInFrom": 1767225600,
+      "checkInUntil": 1767312000,
+      "seats": [
+        { "seatId": "A-1", "row": "A", "number": 1 },
+        { "seatId": "A-2", "row": "A", "number": 2 }
+      ]
+    },
+    {
+      "sectionId": "VIP-B",
+      "name": "内场VIP B区",
+      "capacity": 200,
+      "ticketPrice": "1080.00",
+      "checkInFrom": 1767229200,
+      "checkInUntil": 1767312000,
+      "seats": [
+        { "seatId": "B-1", "row": "B", "number": 1 },
+        { "seatId": "B-2", "row": "B", "number": 2 }
+      ]
+    },
+    {
+      "sectionId": "STAND-E1",
+      "name": "东看台一层",
+      "capacity": 5000,
+      "ticketPrice": "580.00",
+      "checkInFrom": 1767232800,
+      "checkInUntil": 1767312000,
+      "seats": [
+        { "seatId": "E1-001", "row": "E", "number": 1 },
+        { "seatId": "E1-002", "row": "E", "number": 2 }
+      ]
+    },
+    {
+      "sectionId": "STAND-W1",
+      "name": "西看台一层",
+      "capacity": 4800,
+      "ticketPrice": "580.00",
+      "checkInFrom": 1767232800,
+      "checkInUntil": 1767312000,
+      "seats": [
+        { "seatId": "W1-001", "row": "W", "number": 1 },
+        { "seatId": "W1-002", "row": "W", "number": 2 }
+      ]
+    },
+    {
+      "sectionId": "STAND-HIGH",
+      "name": "看台高层（通票）",
+      "capacity": 12000,
+      "ticketPrice": "280.00",
+      "checkInFrom": 1767240000,
+      "checkInUntil": 1767312000,
+      "seats": []
+    }
+  ],
+  "metadata": {
+    "currency": "CNY",
+    "image": "ipfs://QmShowCoverCID/cover.png",
+    "seatMap": "ipfs://QmSeatMapCID/birdnest.png"
+  }
+}
